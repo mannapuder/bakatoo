@@ -44,7 +44,7 @@ def _get_results(id_):
 def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
-    app.run(debug=True)
+    app.run(debug=True, port=int(os.environ['PORT']))
 
 
 if __name__ == '__main__':
