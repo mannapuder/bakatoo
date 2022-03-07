@@ -3,7 +3,7 @@ import os
 import flask as f
 from flask import request
 
-from anna.task import Task
+from task import Task
 
 app = f.Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
