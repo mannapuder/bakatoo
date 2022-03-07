@@ -28,6 +28,7 @@ def _upload():
     file = request.files['file']
     if file and allowed_file(file.filename):
         task = Task(status={'status': 'in queue', 'progress': 0})
+        print(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         app.config['queue'].put(task)
         app.config['work'][task.uuid] = task
@@ -43,7 +44,7 @@ def _get_results(id_):
 def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
-    app.run()
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
