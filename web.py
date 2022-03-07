@@ -6,7 +6,7 @@ from flask import request
 from task import Task
 
 app = f.Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = 'tmp'
 app.secret_key = 'yeet'
 
 
