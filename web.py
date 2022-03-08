@@ -6,7 +6,7 @@ from flask import request
 from task import Task
 
 app = f.Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/tmp'
+app.config['UPLOAD_FOLDER'] = 'uploads'
 app.secret_key = 'yeet'
 
 
@@ -45,7 +45,7 @@ def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=False, port=port)
 
 
 if __name__ == '__main__':
