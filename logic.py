@@ -7,11 +7,11 @@ import os
 
 def process(task):
     #TODO: don't hardcode stuff
-    task.status = {'status': 'loading', 'progress': 0}
+    task.status = {'status': 'laeb..', 'progress': 0}
     y, sr = librosa.load(os.path.join('uploads', task.uuid + ".mp3"))
-    task.status = {'status': 'processing', 'progress': 50}
+    task.status = {'status': 'töötlemine', 'progress': 50}
     beat = get_beat(y, sr)
-    task.status = {'status': 'done', 'progress': 100, 'result': f"BPM = {beat:2f}"}
+    task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {beat:2f}"}
 
 
 def get_beat(y, sr):

@@ -2,7 +2,7 @@ from logic import process
 
 
 def run(queue):
-    print("before loopdy-loop")
+    print("before loopty-loop")
     while not (task := queue.get()).kill:
-        print("inside loopdy-loop")
+        print("inside loopty-loop")
         process(task)
