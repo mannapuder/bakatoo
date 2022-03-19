@@ -3,10 +3,11 @@ import random
 import librosa
 import os
 
+local = False
 
-local=False
+
 def process(task):
-    #TODO: don't hardcode stuff
+    # TODO: don't hardcode stuff
     task.status = {'status': 'laeb..', 'progress': 0}
     try:
         if local:
@@ -17,10 +18,18 @@ def process(task):
         beat = get_beat(y, sr)
         task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {beat:2f}"}
     except:
-        task.status = {'status': 'Ebasobiv helifail', 'progress': 100, 'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}
+        task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
+                       'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}
 
 
 def get_beat(y, sr):
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
     return tempo
 
+
+def get_main_theme(src):
+    pass
+
+
+def split_file(main, src):
+    pass

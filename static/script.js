@@ -7,11 +7,6 @@ async function upload() {
         body: fd
     })).text();
     document.body.removeChild(fileUpload);
-
-    // võib-olla saaks puhtamalt? i don't know
-    let audioPlayer = document.createElement('div');
-    audioPlayer.innerHTML = '<audio controls="controls" src="https://www.coothead.co.uk/audio/You-Cant-Always-Get-What-You-Want.mp3" type="audio/mpeg"></audio>';
-    document.body.appendChild(audioPlayer);
     let progressReport = document.createElement('p');
     document.body.appendChild(progressReport);
     // peaks aga funktsionaalselt dav olema TODO: error handling xd
@@ -24,11 +19,18 @@ async function upload() {
         if (response.progress === 100) break;
         progressReport.innerText = `${response.progress}% - ${response.status}`
     }
-
     document.body.removeChild(progressReport);
+
     let resultText = document.createElement('p');
     resultText.innerText = response.result;
+    if (!resultText.innerText.startsWith("Error")) {
+        let audioPlayer = document.createElement('div');
 
+        audioPlayer.innerHTML = '<audio controls="controls" src="'+ URL.createObjectURL(fileUpload.files[0])+'" type="audio/mpeg"></audio>';
+        document.body.appendChild(audioPlayer);
+    } else {
+        document.body.appendChild(fileUpload);
+    }
 
     document.body.appendChild(resultText);
 
