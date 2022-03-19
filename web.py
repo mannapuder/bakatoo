@@ -5,8 +5,11 @@ from flask import request
 
 from task import Task
 
+local = False
 app = f.Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '/tmp'
+if local:
+    app.config['UPLOAD_FOLDER'] = 'uploads'
 app.secret_key = 'yeet'
 
 
@@ -16,7 +19,9 @@ def _hello():
 
 
 def allowed_file(filename):
-    return True
+    print(filename)
+    print(filename.split(".")[-1])
+    return filename.split(".")[-1] == "wav"
 
 
 @app.route('/upload', methods=['POST'])
@@ -26,11 +31,16 @@ def _upload():
     print(request.files)
     print(request.data)
     file = request.files['file']
+    print(file.filename)
     if file and allowed_file(file.filename):
         task = Task(status={'status': 'in queue', 'progress': 0})
         print(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         app.config['queue'].put(task)
+        app.config['work'][task.uuid] = task
+        return task.uuid
+    else:
+        task = Task(status={'status': 'Ebasobiv fail', 'progress': 100, 'result': 'Error. Sain ebasobiva laiendiga faili, palun proovi uuesti.'})
         app.config['work'][task.uuid] = task
         return task.uuid
     return None
@@ -45,7 +55,7 @@ def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=False, port=port)
 
 
 if __name__ == '__main__':

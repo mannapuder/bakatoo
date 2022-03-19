@@ -4,3 +4,7 @@ body {
     margin: 10%;
     background-color: lightsteelblue;
 }
+
+h1 {
+    color: red;
+}
