@@ -5,7 +5,7 @@ import os
 import pychorus
 
 
-local = True
+local = False
 
 
 def process(task):
