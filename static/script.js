@@ -9,7 +9,7 @@ async function upload() {
     document.body.removeChild(fileUpload);
     let progressReport = document.createElement('p');
     document.body.appendChild(progressReport);
-    // peaks aga funktsionaalselt dav olema TODO: error handling xd
+    // TODO: error handling xd
     let response;
     while (true) {
         await new Promise(r => setTimeout(r, 1000)); // "sleep" pmst
@@ -22,7 +22,7 @@ async function upload() {
     document.body.removeChild(progressReport);
 
     let resultText = document.createElement('p');
-    resultText.innerText = response.result;
+    resultText.innerText = response.result + " peateema algab " + response.chorus_start;
     if (!resultText.innerText.startsWith("Error")) {
         let audioPlayer = document.createElement('div');
 
@@ -33,5 +33,12 @@ async function upload() {
     }
 
     document.body.appendChild(resultText);
+
+    let chorus;
+    if (!resultText.innerText.startsWith("Error")) {
+        let chorusPlayer = document.createElement('div');
+        chorusPlayer.innerHTML = '<audio controls="controls" src="uploads/' + response.chorus + '" type="audio/mpeg"></audio>';
+        document.body.appendChild(chorusPlayer);
+    }
 
 }

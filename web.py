@@ -1,11 +1,11 @@
 import os
 
 import flask as f
-from flask import request
+from flask import request, send_from_directory
 
 from task import Task
 
-local = False
+local = True
 app = f.Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '/tmp'
 if local:
@@ -51,6 +51,12 @@ def _get_results(id_):
     return app.config['work'][id_].status
 
 
+@app.route("/uploads/<path:name>")
+def download_file(name):
+    return send_from_directory(
+        app.config['UPLOAD_FOLDER'], name, as_attachment=True
+    )
+
 def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
@@ -59,6 +65,7 @@ def run(queue):
         app.run(debug=False, port=port)
     else:
         app.run(debug=False, host='0.0.0.0', port=port)
+
 
 
 if __name__ == '__main__':
