@@ -10,7 +10,7 @@ local = False
 
 def process(task):
     # TODO: don't hardcode stuff
-    task.status = {'status': 'laeb..', 'progress': 0}
+    task.status = {'status': 'laeb..', 'progress': 10}
     #try:
     if local:
         path = os.path.join('uploads', task.uuid + ".mp3")
@@ -18,7 +18,7 @@ def process(task):
     else:
         path = os.path.join('/tmp', task.uuid + ".mp3")
         y, sr = librosa.load(path)
-    task.status = {'status': 'töötlemine', 'progress': 50}
+    task.status = {'status': 'töötlemine', 'progress': 30}
     beat = get_beat(y, sr)
     task.status = {'status': 'töötlemine', 'progress': 60}
     chorus, start_sec = get_main_theme(path, task.uuid)
@@ -42,3 +42,6 @@ def get_main_theme(src, uuid):
 
 def split_file(main, src):
     pass
+
+
+

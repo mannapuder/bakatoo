@@ -8,6 +8,7 @@ async function upload() {
     })).text();
     document.body.removeChild(fileUpload);
     let progressReport = document.createElement('p');
+    progressReport.setAttribute("id", "progressBar")
     document.body.appendChild(progressReport);
     // TODO: error handling xd
     let response;
@@ -17,28 +18,31 @@ async function upload() {
             method: 'GET'
         })).json();
         if (response.progress === 100) break;
+        progressReport.style.width = response.progress + "%";
         progressReport.innerText = `${response.progress}% - ${response.status}`
     }
     document.body.removeChild(progressReport);
 
+    let results = document.createElement('div');
     let resultText = document.createElement('p');
     resultText.innerText = response.result + " peateema algab " + response.chorus_start;
     if (!resultText.innerText.startsWith("Error")) {
         let audioPlayer = document.createElement('div');
 
         audioPlayer.innerHTML = '<audio controls="controls" src="'+ URL.createObjectURL(fileUpload.files[0])+'" type="audio/mpeg"></audio>';
-        document.body.appendChild(audioPlayer);
+        results.appendChild(audioPlayer);
     } else {
         document.body.appendChild(fileUpload);
     }
-
-    document.body.appendChild(resultText);
+    results.appendChild(resultText);
 
     let chorus;
     if (!resultText.innerText.startsWith("Error")) {
         let chorusPlayer = document.createElement('div');
         chorusPlayer.innerHTML = '<audio controls="controls" src="uploads/' + response.chorus + '" type="audio/mpeg"></audio>';
-        document.body.appendChild(chorusPlayer);
+        results.appendChild(chorusPlayer);
+
+        document.body.appendChild(results);
     }
 
 }

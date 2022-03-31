@@ -8,3 +8,13 @@ body {
 h1 {
     color: red;
 }
+
+.results {
+    border: skyblue;
+}
+
+#progressBar {
+    background-color: lightpink;
+    border-radius: 5px;
+    width: 50%;
+}
