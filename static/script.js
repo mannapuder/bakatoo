@@ -1,6 +1,6 @@
 async function upload() {
     let fd = new FormData();
-    let fileUpload = document.getElementById('fileUpload');
+    let fileUpload = document.getElementById('frontPageInfo');
     fd.append('file', fileUpload.files[0]);
     const id = await (await fetch('/upload', {
         method: 'POST',
