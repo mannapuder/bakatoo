@@ -7,7 +7,7 @@ import pychorus
 import requests
 from pprint import pp
 
-local = True
+local = False
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
