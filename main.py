@@ -9,3 +9,6 @@ processor = Thread(target=processor.run, args=(work_queue,))
 
 web.start()
 processor.start()
+
+web.join()
+processor.join()

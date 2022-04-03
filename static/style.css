@@ -1,20 +1,40 @@
 /* is style.. or is? */
 
 body {
-    margin: 10%;
-    background-color: lightsteelblue;
+    margin: 5% 10%;
+    background: rgb(0,75,215);
+    background: linear-gradient(0deg, rgba(0,75,215,0.9102384707866571) 0%, rgba(255,100,255,0.53299488104306734) 100%);
+    background-attachment: fixed;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 h1 {
-    color: red;
+    color: darkblue;
+    background-color: aliceblue;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    opacity: 0.75;
 }
 
 .results {
     border: skyblue;
 }
 
+#fileUpload {
+    display: none;
+    align-items: center;
+}
+
+#fileButton {
+    background-color: lightpink;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 #progressBar {
     background-color: lightpink;
     border-radius: 5px;
     width: 50%;
+    padding: 5px;
 }

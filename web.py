@@ -5,7 +5,7 @@ from flask import request, send_from_directory
 
 from task import Task
 
-local = False
+local = True
 app = f.Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '/tmp'
 if local:
@@ -21,7 +21,7 @@ def _hello():
 def allowed_file(filename):
     print(filename)
     print(filename.split(".")[-1])
-    return filename.split(".")[-1] == "wav"
+    return filename.split(".")[-1] == "wav"  # rsplit(".", 1)[-1]
 
 
 @app.route('/upload', methods=['POST'])
