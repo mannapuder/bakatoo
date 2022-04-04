@@ -1,12 +1,14 @@
 async function upload() {
+    console.log("here");
     let fd = new FormData();
-    let fileUpload = document.getElementById('frontPageInfo');
+    let frontPageInfo = document.getElementById('frontPageInfo');
+    let fileUpload = document.getElementById('fileUpload');
     fd.append('file', fileUpload.files[0]);
     const id = await (await fetch('/upload', {
         method: 'POST',
         body: fd
     })).text();
-    document.body.removeChild(fileUpload);
+    document.body.removeChild(frontPageInfo);
     let progressReport = document.createElement('p');
     progressReport.setAttribute("id", "progressBar")
     document.body.appendChild(progressReport);
@@ -24,6 +26,7 @@ async function upload() {
     document.body.removeChild(progressReport);
 
     let results = document.createElement('div');
+    results.id = "result";
     let resultText = document.createElement('p');
     resultText.innerText = response.result + " peateema algab " + response.chorus_start;
     if (!resultText.innerText.startsWith("Error")) {
@@ -32,7 +35,7 @@ async function upload() {
         audioPlayer.innerHTML = '<audio controls="controls" src="'+ URL.createObjectURL(fileUpload.files[0])+'" type="audio/mpeg"></audio>';
         results.appendChild(audioPlayer);
     } else {
-        document.body.appendChild(fileUpload);
+        document.body.appendChild(frontPageInfo);
     }
     results.appendChild(resultText);
 
