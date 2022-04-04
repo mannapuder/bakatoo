@@ -22,7 +22,7 @@ def allowed_file(filename):
     print(filename)
     print(filename.split(".")[-1])
     end = filename.split(".")[-1]
-    return end == "wav"  or end == "mp3" # rsplit(".", 1)[-1]
+    return end == "wav" or end == "mp3"  # rsplit(".", 1)[-1]
 
 
 @app.route('/upload', methods=['POST'])
@@ -34,14 +34,15 @@ def _upload():
     file = request.files['file']
     print(file.filename)
     if file and allowed_file(file.filename):
-        task = Task(status={'status': 'in queue', 'progress': 0})
+        task = Task(status={'status': 'järjekorras', 'progress': 0})
         print(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], task.uuid + ".mp3"))
         app.config['queue'].put(task)
         app.config['work'][task.uuid] = task
         return task.uuid
     else:
-        task = Task(status={'status': 'Ebasobiv fail', 'progress': 100, 'result': 'Error. Sain ebasobiva laiendiga faili, palun proovi uuesti.'})
+        task = Task(status={'status': 'Ebasobiv fail', 'progress': 100,
+                            'result': 'Error. Sain ebasobiva laiendiga faili, palun proovi uuesti.'})
         app.config['work'][task.uuid] = task
         return task.uuid
     return None
@@ -58,6 +59,7 @@ def download_file(name):
         app.config['UPLOAD_FOLDER'], name, as_attachment=True
     )
 
+
 def run(queue):
     app.config['work'] = {}
     app.config['queue'] = queue
@@ -68,7 +70,7 @@ def run(queue):
         app.run(debug=False, host='0.0.0.0', port=port)
 
 
-
 if __name__ == '__main__':
     from queue import Queue
+
     run(Queue())
