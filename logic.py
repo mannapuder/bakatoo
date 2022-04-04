@@ -7,7 +7,7 @@ import pychorus
 import requests
 from pprint import pp
 
-local = False
+local = True
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
@@ -60,10 +60,15 @@ def get_main_theme(src, uuid, results):
     results['start_sec'] = chorus_start_sec
     #return uuid + "main_theme.wav", chorus_start_sec
 
-
-def split_file(main, src):
-    pass
-
+#felt good might delete later
+def features(audio_path):
+    features, features_frames = es.MusicExtractor(lowlevelStats=['mean', 'stdev'],
+                                                  rhythmStats=['mean', 'stdev'],
+                                                  tonalStats=['mean', 'stdev'])(audio_path)
+    bpm = features['rhythm.bpm']
+    helistik = (features['tonal.chords_key'], features['tonal.chords_scale'])
+    energy = features['tonal.tuning_nontempered_energy_ratio']
+    dance = features['rhythm.danceability'] / 3
 
 def recognize(path, results):
     # TODO: use chorus?
