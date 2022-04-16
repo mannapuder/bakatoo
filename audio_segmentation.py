@@ -5,19 +5,37 @@ import scipy
 N_FFT = 2 ** 14
 
 
-def create_chroma(input_file, n_fft=N_FFT):
+def get_segmentation(y, sr):
+    chroma = create_chroma(y, sr)
+
+    ssm = ti_ssm2(chroma)
+    L_value = 60
+    diag_smooth_ssm = filter_diag_sm(ssm, L_value)
+
+    thresh_ssm = threshold_matrix(diag_smooth_ssm)
+    kernel_size = 5
+    diluted_ssm = line_dilation(thresh_ssm, kernel_size)
+    time_lag_matrix = time_lag(diluted_ssm)
+    denoised_tlm = custom_denoise(time_lag_matrix)
+
+    # TODO: add line recognition part here
+
+    # TODO: add segmentation classification here
+
+    result = ["A", "B", "C", "A", "B"]
+    return result
+
+
+def create_chroma(y, sr, n_fft=N_FFT):
     """
     Generate the notes present in a song
     Returns: tuple of 12 x n chroma, song wav data, sample rate (usually 22050)
              and the song length in seconds
     """
-    y, sr = librosa.load(input_file)
-    # y, index = librosa.effects.trim(y)
-    song_length_sec = y.shape[0] / float(sr)
     S = np.abs(librosa.stft(y, n_fft=n_fft)) ** 2
     chroma = librosa.feature.chroma_stft(S=S, sr=sr)
 
-    return chroma, y, sr, song_length_sec
+    return chroma
 
 
 def ti_ssm2(chroma):  # TODO: custom funcs?
@@ -117,8 +135,9 @@ def filter_diag_sm(S, L):
     return S_L
 
 
-def line_dilation(ssm):
-    return scipy.ndimage.grey_dilation(ssm, size=(10, 10))
+def line_dilation(ssm, size):
+    return scipy.ndimage.grey_dilation(ssm, size=(size, size))
+
 
 def custom_denoise(time_lag_matrix):
     new_matrix = np.copy(time_lag_matrix)
@@ -155,6 +174,5 @@ def custom_denoise(time_lag_matrix):
                 start = j
                 end = j
                 empty = True
-    
 
     return new_matrix
