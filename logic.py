@@ -11,6 +11,8 @@ local = False
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
+tempos = [[0, 24], [25, 45], [40, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200], [200, 400]]
+terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Moderato", "Andante", "Allegro", "Vivace", "Presto", "Prestissimo"]
 
 def process(task):
     # TODO: don't hardcode stuff
@@ -69,6 +71,8 @@ def features(audio_path):
     helistik = (features['tonal.chords_key'], features['tonal.chords_scale'])
     energy = features['tonal.tuning_nontempered_energy_ratio']
     dance = features['rhythm.danceability'] / 3
+
+
 
 def recognize(path, results):
     # TODO: use chorus?
