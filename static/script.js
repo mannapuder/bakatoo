@@ -45,6 +45,13 @@ async function upload() {
         chorusPlayer.innerHTML = '<audio controls="controls" src="uploads/' + response.chorus + '" type="audio/mpeg"></audio>';
         results.appendChild(chorusPlayer);
 
+        let audioSegmentation = document.createElement('div');
+        audioSegmentation.id = "segmentationGraph";
+
+        for (let part in response.segmentation){
+
+
+        }
         document.body.appendChild(results);
     }
 

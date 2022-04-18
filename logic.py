@@ -5,13 +5,15 @@ import librosa
 import os
 import pychorus
 import requests
+import audio_segmentation
+import audio_structure
 from pprint import pp
 
 local = False
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
-tempos = [[0, 24], [25, 45], [40, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200], [200, 400]]
+tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200], [200, 400]]
 terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Moderato", "Andante", "Allegro", "Vivace", "Presto", "Prestissimo"]
 
 def process(task):
@@ -41,7 +43,8 @@ def process(task):
         i += 1
 
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}", 'chorus': results['chorus'],
-                   'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist']}
+                   'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
+                   'segmentation': }
     # except:
     #    task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
     #                  'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}
@@ -50,8 +53,16 @@ def process(task):
 def get_beat(y, sr, results):
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
     results['beat'] = tempo
-    # return tempo
+    for i in tempos:
+        if i[0] <= tempo <= i[1]:
+            results['tempo_term'] = terms[i]
 
+def just_get_beat(y, sr):
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    for i in tempos:
+        if i[0] <= tempo <= i[1]:
+            tempo_term = terms[i]
+    return tempo, tempo_term
 
 def get_main_theme(src, uuid, results):
     path = "".join(src.split(".")[:-1])
@@ -72,7 +83,34 @@ def features(audio_path):
     energy = features['tonal.tuning_nontempered_energy_ratio']
     dance = features['rhythm.danceability'] / 3
 
+def get_segmentation(y, sr, results):
+    segments = audio_segmentation.get_segmentation(y, sr)
 
+def get_structure(segm, results):
+    name, desc = audio_structure.predict(segm)
+    results["structure_name"] = name
+    results["structure_desc"] = desc
+
+def get_tempo_each_segm(segm, y, sr, results):
+
+    segm_tempos = []
+
+    for seg in segm: #TODO: figure this shit out
+        tempo, tempo_term = just_get_beat(y, sr)
+        segm_tempos.append([tempo, tempo_term])
+
+    results["tempos"] = segm_tempos
+    pass
+
+def get_key_each_segm(segm, results):
+
+    segm_keys = []
+    for seg in segm:
+        #TODO: get key here somehow
+        key = "A"
+        segm_keys.append(key)
+
+    results["keys"] = segm_keys
 
 def recognize(path, results):
     # TODO: use chorus?

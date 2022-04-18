@@ -22,7 +22,7 @@ def get_segmentation(y, sr):
 
     # TODO: add segmentation classification here
 
-    result = ["A", "B", "C", "A", "B"]
+    result = [["A"], "B", "C", "A", "B"]
     return result
 
 
