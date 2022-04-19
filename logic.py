@@ -9,7 +9,7 @@ import audio_segmentation
 import audio_structure
 from pprint import pp
 
-local = False
+local = True
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
@@ -36,7 +36,7 @@ def process(task):
         [get_main_theme, path, task.uuid, results]
         # lisa kui vaja, also increase max workers
     ]]
-
+    get_segmentation(y, sr, results)
     i = 1
     for fut in concurrent.futures.as_completed(futs):
         task.status = {'status': 'töötlemine', 'progress': round(30 + (70 / len(futs) * i))}
@@ -44,7 +44,7 @@ def process(task):
 
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}", 'chorus': results['chorus'],
                    'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
-                   'segmentation': }
+                   'segmentation': results['segmentation']}
     # except:
     #    task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
     #                  'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}
@@ -85,6 +85,7 @@ def features(audio_path):
 
 def get_segmentation(y, sr, results):
     segments = audio_segmentation.get_segmentation(y, sr)
+    results['segmentation'] = segments
 
 def get_structure(segm, results):
     name, desc = audio_structure.predict(segm)

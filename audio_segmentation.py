@@ -6,7 +6,7 @@ N_FFT = 2 ** 14
 
 
 def get_segmentation(y, sr):
-    chroma = create_chroma(y, sr)
+    """chroma = create_chroma(y, sr)
 
     ssm = ti_ssm2(chroma)
     L_value = 60
@@ -14,15 +14,16 @@ def get_segmentation(y, sr):
 
     thresh_ssm = threshold_matrix(diag_smooth_ssm)
     kernel_size = 5
-    diluted_ssm = line_dilation(thresh_ssm, kernel_size)
-    time_lag_matrix = time_lag(diluted_ssm)
-    denoised_tlm = custom_denoise(time_lag_matrix)
+    #diluted_ssm = line_dilation(thresh_ssm, kernel_size)
+    time_lag_matrix = time_lag(thresh_ssm)
+    denoised_tlm = custom_denoise(time_lag_matrix)"""
 
     # TODO: add line recognition part here
 
     # TODO: add segmentation classification here
 
-    result = [["A"], "B", "C", "A", "B"]
+    # Test segmentation
+    result = [["A", 25], ["B", 25], ["C", 30], ["B", 10], ["A", 10]]
     return result
 
 

@@ -41,17 +41,36 @@ async function upload() {
 
     let chorus;
     if (!resultText.innerText.startsWith("Error")) {
-        let chorusPlayer = document.createElement('div');
+        /*let chorusPlayer = document.createElement('div');
         chorusPlayer.innerHTML = '<audio controls="controls" src="uploads/' + response.chorus + '" type="audio/mpeg"></audio>';
-        results.appendChild(chorusPlayer);
+        results.appendChild(chorusPlayer);*/
 
+        //Segmentation visualisation
         let audioSegmentation = document.createElement('div');
         audioSegmentation.id = "segmentationGraph";
-
-        for (let part in response.segmentation){
-
+        console.log(response.segmentation);
+        myArray = JSON.parse(JSON.stringify(response.segmentation));
+        console.log(myArray);
+        for (var i = 0; i < myArray.length; i++){
+            var segm = myArray[i];
+            segm = JSON.parse(JSON.stringify(segm));
+            console.log("segmenting");
+            console.log(segm);
+            let part = document.createElement('div');
+            let length = segm[1];
+            let name = segm[0];
+            let par = document.createElement("p");
+            par.innerText = name;
+            part.className = "part";
+            console.log(length);
+            console.log(name);
+            part.style.width = length+"%";
+            part.appendChild(par);
+            audioSegmentation.appendChild(part);
 
         }
+
+        results.appendChild(audioSegmentation);
         document.body.appendChild(results);
     }
 

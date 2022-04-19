@@ -24,10 +24,40 @@ h1 {
 
 }
 
+#segmentationGraph {
+    display: flex;
+    flex-direction: row;
+    border: 3px black solid;
+}
+
+.part {
+    border: 2px red solid;
+}
+
+.A {
+
+}
+
+.B {
+
+}
+
+.C {
+
+}
+
+.D {
+
+}
+
+.E {
+
+}
 #fileUpload {
     display: none;
     align-items: center;
 }
+
 
 #fileButton {
     background-color: darkmagenta;
