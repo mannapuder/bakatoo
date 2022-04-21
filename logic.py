@@ -44,7 +44,7 @@ def process(task):
 
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}", 'chorus': results['chorus'],
                    'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
-                   'segmentation': results['segmentation']}
+                   'segmentation': results['segmentation'], 'structure_name': results['structure_name'], 'structure_desc': results['structure_desc']}
     # except:
     #    task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
     #                  'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}

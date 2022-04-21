@@ -70,7 +70,22 @@ async function upload() {
 
         }
 
+        //Form description
+
+        let form = document.createElement('div');
+        form.id = "form_div";
+
+        let formName = document.createElement('h3');
+        formName.innerText = response.structure_name;
+        let formDesc = document.createElement('p');
+        formDesc.innerText = response.structure_desc;
+
+        form.appendChild(formName);
+        form.appendChild(formDesc);
+
+
         results.appendChild(audioSegmentation);
+        results.appendChild(form);
         document.body.appendChild(results);
     }
 
