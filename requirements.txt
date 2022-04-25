@@ -1,3 +1,4 @@
+madmom
 Flask==2.0.3
 Werkzeug>=2.0
 librosa==0.9.1

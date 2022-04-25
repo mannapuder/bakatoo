@@ -22,7 +22,7 @@ def allowed_file(filename):
     print(filename)
     print(filename.split(".")[-1])
     end = filename.split(".")[-1]
-    return end == "wav" or end == "mp3"  # rsplit(".", 1)[-1]
+    return end == "wav"  # or end == "mp3"  # rsplit(".", 1)[-1]
 
 
 @app.route('/upload', methods=['POST'])
