@@ -64,12 +64,15 @@ async function upload() {
             let part = document.createElement('div');
             let length = segm[1];
             let name = segm[0];
+            let segm_title = document.createElement('h4');
             let par = document.createElement("p");
-            par.innerText = name + " " + key + " " + tempo;
+            segm_title.innerText= name;
+            par.innerText = key + "\n" + tempo;
             part.className = "part " + name;
             console.log(length);
             console.log(name);
             part.style.width = length+"%";
+            part.appendChild(segm_title);
             part.appendChild(par);
             audioSegmentation.appendChild(part);
 
