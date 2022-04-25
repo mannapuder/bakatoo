@@ -7,7 +7,7 @@ N_FFT = 2 ** 14
 
 
 def get_segmentation(y, sr):
-    chroma = create_chroma(y, sr)
+    """chroma = create_chroma(y, sr)
 
     ssm = ti_ssm2(chroma)
     L_value = 60
@@ -17,7 +17,7 @@ def get_segmentation(y, sr):
     kernel_size = 5
     #diluted_ssm = line_dilation(thresh_ssm, kernel_size)
     time_lag_matrix = time_lag(thresh_ssm)
-    denoised_tlm = custom_denoise(time_lag_matrix)
+    denoised_tlm = custom_denoise(time_lag_matrix)"""
 
     # TODO: add line recognition part here
 

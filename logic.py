@@ -48,11 +48,13 @@ def process(task):
         task.status = {'status': 'töötlemine', 'progress': round(30 + (70 / len(futs) * i))}
         i += 1
 
+    results['keys'] = ["A", "A", "B duur", "C moll", "A# duur"]
+    results['tempos'] = [120, 130, 90, 50, 60]
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}",
                    'chorus': results['chorus'],
                    'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
                    'segmentation': results['segmentation'], 'structure_name': results['structure_name'],
-                   'structure_desc': results['structure_desc']}
+                   'structure_desc': results['structure_desc'], 'keys': results['keys'], 'tempos': results['tempos']}
     # except:
     #    task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
     #                  'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}

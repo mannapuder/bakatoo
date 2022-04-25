@@ -1,33 +1,62 @@
 /* is style.. or is? */
 
+/*
+$magnolia: rgba(234, 228, 233, 1);
+$linen: rgba(255, 241, 230, 1);
+$misty-rose: rgba(253, 226, 228, 1);
+$mimi-pink: rgba(250, 210, 225, 1);
+$mint-cream: rgba(226, 236, 233, 1);
+$powder-blue: rgba(190, 225, 230, 1);
+$isabelline: rgba(240, 239, 235, 1);
+$lavender-web: rgba(223, 231, 253, 1);
+$periwinkle-crayola: rgba(205, 218, 253, 1);
+ */
 body {
     /* main colour scheme */
-    --star-command-blue: #2274a5ff;
-    --timberwolf: #cecfc7ff;
-    --silver-metallic: #ada8b6ff;
-    --eggplant: #5e4b56ff;
-    --dark-liver: #474350ff;
-
-    margin: 5% 10%;
-    background: linear-gradient(45deg, #2274a5ff, #cecfc7ff, #ada8b6ff, #5e4b56ff, #474350ff);
+    --magnolia: #eae4e9ff;
+    --linen: #fff1e6ff;
+    --misty-rose: #fde2e4ff;
+    --mimi-pink: #fad2e1ff;
+    --mint-cream: #e2ece9ff;
+    --powder-blue: #bee1e6ff;
+    --isabelline: #f0efebff;
+    --lavender-web: #dfe7fdff;
+    --periwinkle-crayola: #cddafdff;
+    margin: 0px 5%;
+    background: linear-gradient(0deg, #fff1e6ff, #fde2e4ff, #fad2e1ff, #dfe7fdff);
     background-attachment: fixed;
     font-family: "Lucida Console", "Courier New", monospace;
 
 }
 
+.main {
+    background-color: rgba(240, 239, 235, 0.6);
+    height: 100vh;
+    padding: 10px;
+}
+
 h1 {
-    color: var(--dark-liver);
-    background-color: var(--timberwolf);
+    color: black;
     border-radius: 5px;
     padding: 20px;
+    font-size: 70px;
     text-align: center;
     opacity: 0.75;
     font-family: 'Square Peg', cursive;
 }
 
 #result {
-    border: skyblue;
+    border-radius: 5px;
     background-color: rgba(250, 250, 250, 0.4);
+
+
+}
+
+audio {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
 
 
 }
@@ -36,30 +65,33 @@ h1 {
     display: flex;
     flex-direction: row;
     border: 3px black solid;
+    border-radius: 10px;
+    min-height: 100px;
 }
 
 .part {
-    border: 2px solid red var(--eggplant);
+    border: 2px solid red var(--magnolia);
+
 }
 
 .A {
-
+    background-color: var(--linen);
 }
 
 .B {
-
+    background-color: var(--misty-rose);
 }
 
 .C {
-
+    background-color: var(--mimi-pink);
 }
 
 .D {
-
+    background-color: var(--mint-cream);
 }
 
 .E {
-
+    background-color: var(--powder-blue);
 }
 
 #form_div {
@@ -73,14 +105,14 @@ h1 {
 
 
 #fileButton {
-    background-color: var(--star-command-blue);
+    background-color: var(--powder-blue);
     border-radius: 5px;
     padding: 5px;
     opacity: 1;
 }
 
 #progressBar {
-    background-color: var(--star-command-blue);
+    background-color: var(--periwinkle-crayola);
     border-radius: 5px;
     width: 50%;
     padding: 5px;
@@ -89,7 +121,7 @@ h1 {
 #frontPageInfo {
     padding: 20px;
     border-radius: 5px;
-    background-color: var(--timberwolf);
+    background-color: var(--lavender-web);
     display: flex;
     flex-direction: column;
     align-items: center;

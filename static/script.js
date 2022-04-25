@@ -8,10 +8,11 @@ async function upload() {
         method: 'POST',
         body: fd
     })).text();
-    document.body.removeChild(frontPageInfo);
+    let mainDiv = document.getElementById("main");
+    mainDiv.removeChild(frontPageInfo);
     let progressReport = document.createElement('p');
     progressReport.setAttribute("id", "progressBar")
-    document.body.appendChild(progressReport);
+    mainDiv.appendChild(progressReport);
     // TODO: error handling xd
     let response;
     while (true) {
@@ -23,7 +24,7 @@ async function upload() {
         progressReport.style.width = response.progress + "%";
         progressReport.innerText = `${response.progress}% - ${response.status}`
     }
-    document.body.removeChild(progressReport);
+    mainDiv.removeChild(progressReport);
 
     let results = document.createElement('div');
     results.id = "result";
@@ -35,7 +36,7 @@ async function upload() {
         audioPlayer.innerHTML = '<audio controls="controls" src="'+ URL.createObjectURL(fileUpload.files[0])+'" type="audio/mpeg"></audio>';
         results.appendChild(audioPlayer);
     } else {
-        document.body.appendChild(frontPageInfo);
+        mainDiv.appendChild(frontPageInfo);
     }
     results.appendChild(resultText);
 
@@ -49,10 +50,14 @@ async function upload() {
         let audioSegmentation = document.createElement('div');
         audioSegmentation.id = "segmentationGraph";
         console.log(response.segmentation);
-        myArray = JSON.parse(JSON.stringify(response.segmentation));
-        console.log(myArray);
-        for (var i = 0; i < myArray.length; i++){
-            var segm = myArray[i];
+        segmArray = JSON.parse(JSON.stringify(response.segmentation));
+        keyArray = JSON.parse(JSON.stringify(response.keys));
+        tempoArray = JSON.parse(JSON.stringify(response.tempos));
+        console.log(segmArray);
+        for (var i = 0; i < segmArray.length; i++){
+            var segm = segmArray[i];
+            var key = keyArray[i];
+            var tempo = tempoArray[i];
             segm = JSON.parse(JSON.stringify(segm));
             console.log("segmenting");
             console.log(segm);
@@ -60,8 +65,8 @@ async function upload() {
             let length = segm[1];
             let name = segm[0];
             let par = document.createElement("p");
-            par.innerText = name;
-            part.className = "part";
+            par.innerText = name + " " + key + " " + tempo;
+            part.className = "part " + name;
             console.log(length);
             console.log(name);
             part.style.width = length+"%";
@@ -86,7 +91,7 @@ async function upload() {
 
         results.appendChild(audioSegmentation);
         results.appendChild(form);
-        document.body.appendChild(results);
+        mainDiv.appendChild(results);
     }
 
 }
