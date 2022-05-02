@@ -9,14 +9,14 @@ import audio_segmentation
 import audio_structure
 import madmom
 
-from pprint import pp
 
 local = True
-executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)  # max_workers võiks olla kui mitu funki on eeldatav pm
+executor = concurrent.futures.ThreadPoolExecutor(max_workers=4)  # max_workers võiks olla kui mitu funki on eeldatav pm
 
+#Global parameters
 tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200],
           [200, 400]]
-terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Moderato", "Andante", "Allegro", "Vivace", "Presto",
+terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Andante", "Moderno", "Allegro", "Vivace", "Presto",
          "Prestissimo"]
 key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
 
@@ -38,18 +38,19 @@ def process(task):
     futs = [executor.submit(*fn_and_args) for fn_and_args in [
         [recognize, path, results],
         [get_beat, y, sr, results],
-        [get_main_theme, path, task.uuid, results]
+        [get_main_theme, path, task.uuid, results],
+        [get_segmentation, y, sr, results]
         # lisa kui vaja, also increase max workers
     ]]
-    get_segmentation(y, sr, results)
     get_structure([], results)
     i = 1
     for fut in concurrent.futures.as_completed(futs):
         task.status = {'status': 'töötlemine', 'progress': round(30 + (70 / len(futs) * i))}
         i += 1
 
-    results['keys'] = ["A", "A", "B duur", "C moll", "A# duur"]
-    results['tempos'] = [120, 130, 90, 50, 60]
+    #dummy data for testing
+    results['keys'] = ["A duur", "a moll", "B duur", "c moll", "A# duur"]
+    results['tempos'] = [[120, "Allegro"], [130, "Allegro"],  [20, "Grave"],  [120, "Allegro"],  [120, "Allegro"]]
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}",
                    'chorus': results['chorus'],
                    'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
@@ -70,6 +71,7 @@ def get_beat(y, sr, results):
 
 def just_get_beat(y, sr):
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    tempo_term = "Unknown"
     for i in tempos:
         if i[0] <= tempo <= i[1]:
             tempo_term = terms[i]
@@ -121,7 +123,7 @@ def get_key_each_segm(segments, results):
     segm_keys = []
     for seg in segments:
         # TODO: get key here somehow
-        key = madmom.features.key.key_prediction_to_label(key_recognizer(seg))
+        key = just_get_key(seg, results)
         segm_keys.append(key)
 
     results["keys"] = segm_keys
