@@ -91,8 +91,20 @@ async function upload() {
         form.appendChild(formName);
         form.appendChild(formDesc);
 
+        let general_desc = document.createElement('div');
+        form.id = "desc_div";
+
+        let descTitle = document.createElement('h3');
+        formName.innerText = "Üldine kirjeldus";
+        let descPara = document.createElement('p');
+        formDesc.innerText = response.general_desc;
+
+        general_desc.append(descTitle);
+        general_desc.append(descPara);
+
 
         results.appendChild(audioSegmentation);
+        results.appendChild(general_desc);
         results.appendChild(form);
         mainDiv.appendChild(results);
     }

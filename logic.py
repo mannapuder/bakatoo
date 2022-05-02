@@ -45,17 +45,34 @@ def process(task):
     get_structure([], results)
     i = 1
     for fut in concurrent.futures.as_completed(futs):
-        task.status = {'status': 'töötlemine', 'progress': round(30 + (70 / len(futs) * i))}
+        task.status = {'status': 'töötlemine', 'progress': round(30 + (30 / len(futs) * i))}
+        i += 1
+
+    futs = [executor.submit(*fn_and_args) for fn_and_args in [
+        [get_structure, segm, results],
+        [get_tempo_each_segm, segm, results],
+        [get_key_each_segm, segm, results],
+        # lisa kui vaja, also increase max workers
+    ]]
+
+    i = 1
+    for fut in concurrent.futures.as_completed(futs):
+        task.status = {'status': 'töötlemine', 'progress': round(30 + (30 / len(futs) * i))}
         i += 1
 
     #dummy data for testing
     results['keys'] = ["A duur", "a moll", "B duur", "c moll", "A# duur"]
     results['tempos'] = [[120, "Allegro"], [130, "Allegro"],  [20, "Grave"],  [120, "Allegro"],  [120, "Allegro"]]
+
+    #Text info builder
+    make_text(results)
+
     task.status = {'status': 'valmis', 'progress': 100, 'result': f"BPM = {results['beat']:2f}",
                    'chorus': results['chorus'],
                    'chorus_start': results['start_sec'], 'title_and_artist': results['title and artist'],
                    'segmentation': results['segmentation'], 'structure_name': results['structure_name'],
-                   'structure_desc': results['structure_desc'], 'keys': results['keys'], 'tempos': results['tempos']}
+                   'structure_desc': results['structure_desc'], 'keys': results['keys'], 'tempos': results['tempos'],
+                   'general_desc': results['text']}
     # except:
     #    task.status = {'status': 'Ebasobiv helifail', 'progress': 100,
     #                  'result': 'Error. Selle helifaili töötlemine ei õnnestunud, palun proovi uuesti.'}
@@ -128,6 +145,12 @@ def get_key_each_segm(segments, results):
 
     results["keys"] = segm_keys
 
+def make_text(results):
+    text = "Lorem ipsum dolore sit amet"
+    tempos = results['tempos']
+    keys = results['keys']
+
+    results['text'] = text
 
 def recognize(path, results):
     # TODO: use chorus?
