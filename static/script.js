@@ -36,9 +36,10 @@ async function upload() {
         audioPlayer.innerHTML = '<audio controls="controls" src="'+ URL.createObjectURL(fileUpload.files[0])+'" type="audio/mpeg"></audio>';
         results.appendChild(audioPlayer);
     } else {
+        results.appendChild(resultText);
         mainDiv.appendChild(frontPageInfo);
     }
-    results.appendChild(resultText);
+    //results.appendChild(resultText);
 
     let chorus;
     if (!resultText.innerText.startsWith("Error")) {
@@ -57,9 +58,8 @@ async function upload() {
         for (var i = 0; i < segmArray.length; i++){
             var segm = segmArray[i];
             var key = keyArray[i];
-            var tempo = tempoArray[i];
+            var tempo = JSON.parse(JSON.stringify(tempoArray[i]));
             segm = JSON.parse(JSON.stringify(segm));
-            console.log("segmenting");
             console.log(segm);
             let part = document.createElement('div');
             let length = segm[1];
@@ -67,7 +67,7 @@ async function upload() {
             let segm_title = document.createElement('h4');
             let par = document.createElement("p");
             segm_title.innerText= name;
-            par.innerText = key + "\n" + tempo;
+            par.innerText = key + "\n" + tempo[1] + " ("+tempo[0]+")";
             part.className = "part " + name;
             console.log(length);
             console.log(name);
@@ -95,9 +95,9 @@ async function upload() {
         form.id = "desc_div";
 
         let descTitle = document.createElement('h3');
-        formName.innerText = "Üldine kirjeldus";
+        descTitle.innerText = "Üldine kirjeldus";
         let descPara = document.createElement('p');
-        formDesc.innerText = response.general_desc;
+        descPara.innerText = response.general_desc;
 
         general_desc.append(descTitle);
         general_desc.append(descPara);

@@ -64,13 +64,25 @@ audio {
 #segmentationGraph {
     display: flex;
     flex-direction: row;
-    border: 3px black solid;
+    --border: 3px black solid;
     border-radius: 10px;
     min-height: 100px;
+    padding: 10px;
 }
 
 .part {
-    border: 2px solid red var(--magnolia);
+    padding: 1%;
+    word-wrap: break-word;
+    border: 0.5px solid black;
+    min-width: 0px;
+
+}
+
+.part h4{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 
 }
 

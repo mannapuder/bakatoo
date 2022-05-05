@@ -1,5 +1,4 @@
 /uploads
 *.md
 *.ipynb
-/paramviz_app
 /test_audios
