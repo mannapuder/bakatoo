@@ -7,7 +7,7 @@ import pychorus
 import requests
 import audio_segmentation
 import audio_structure
-import madmom
+#import madmom
 
 
 local = False
@@ -18,7 +18,7 @@ tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 76], [76, 108], [108, 120]
           [200, 400]]
 terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Andante", "Moderno", "Allegro", "Vivace", "Presto",
          "Prestissimo"]
-key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
+#key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
 
 
 def process(task):
@@ -90,10 +90,12 @@ def just_get_beat(y, sr):
 
 
 def just_get_key(y, results):
-    key = madmom.features.key.key_prediction_to_label(key_recognizer(y))
+    #key = madmom.features.key.key_prediction_to_label(key_recognizer(y))
+    key = "G major"
     key = key.split(" ")
     key[1] = "duur" if key[1] == "major" else "moll"
     key = " ".join(key)
+    key = "Helistikku ei leitud"
     results['key'] = key
     return key
 

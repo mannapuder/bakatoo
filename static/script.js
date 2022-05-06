@@ -67,7 +67,7 @@ async function upload() {
             let segm_title = document.createElement('h4');
             let par = document.createElement("p");
             segm_title.innerText= name;
-            par.innerText = key + "\n" + tempo[1] + " ("+tempo[0]+")";
+            par.innerText = /*key + "\n" + */ tempo[1] + " ("+tempo[0]+")";
             part.className = "part " + name;
             console.log(length);
             console.log(name);
