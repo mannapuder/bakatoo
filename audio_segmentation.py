@@ -77,7 +77,12 @@ def main_algorithm(y, orig_sr):
 
     distances = section_difference[np.triu_indices_from(section_difference, 1)]
     Z = hierarchy.linkage(distances, method='centroid')  # i don't know why but centroid works
-    labels = hierarchy.fcluster(Z, t=1)  # i don't know why but 1 works
+
+    for a in range(100, 1, -1):
+        t = a / 100
+        labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
+        if max(labels) > 1:
+            break
 
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     label_mapping = {}
