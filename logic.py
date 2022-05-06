@@ -10,7 +10,7 @@ import audio_structure
 #import madmom
 
 
-local = True
+local = False
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
 
 #Global parameters
