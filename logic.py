@@ -10,7 +10,7 @@ import audio_structure
 #import madmom
 
 
-local = False
+local = True
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
 
 #Global parameters
@@ -74,8 +74,8 @@ def process(task):
 def get_beat(y, sr, results):
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
     results['beat'] = tempo
-    for i in tempos:
-        if i[0] <= tempo <= i[1]:
+    for i in range(len(tempos)):
+        if tempos[i][0] <= tempo <= tempos[i][1]:
             results['tempo_term'] = terms[i]
 
 
