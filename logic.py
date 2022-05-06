@@ -54,9 +54,9 @@ def process(task):
         task.status = {'status': 'töötlemine', 'progress': round(50 + (40 / len(futs) * i))}
         i += 1
 
+    just_get_key(y, results)
+    get_beat(y, sr, results)
     #dummy data for testing
-    #get_structure(segm, results)
-    #results['keys'] = ["A duur", "a moll", "B duur", "c moll", "A# duur", "A# duur", "A# duur", "A# duur"]
     print(results)
     #Text info builder
     make_text(results)
