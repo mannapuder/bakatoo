@@ -97,6 +97,7 @@ async function upload() {
         let descTitle = document.createElement('h3');
         descTitle.innerText = "Tulemus";
         let descPara = document.createElement('p');
+        descPara.id = "desc_p"
         descPara.innerText = response.general_desc;
 
         general_desc.append(descTitle);

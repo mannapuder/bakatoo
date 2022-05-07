@@ -183,13 +183,13 @@ def make_text(results):
         text += "Teose helistikuks on " + keys.pop() + ". "
     if min_tempo_term == max_tempo_term:
         text += "Antud teos on esitatud ligikaudu ühtlases tempos. Keskmiselt on teose tempo " + str(
-            int((min + max) / 2)) + " lööki minutis ehk " + min_tempo_term
+            int((min + max) / 2)) + " lööki minutis ehk " + min_tempo_term + ". "
     else:
         text += "Pala esitamise kiirus vaheldub " + str(min) + " lööki minutis ehk " + min_tempo_term + " ja " + str(
             max) + " lööki minutis ehk " + max_tempo_term + " vahel. " "Keskmiselt on teose tempo " + str(
             int((min + max) / 2)) + " lööki minutis ehk " + just_get_term(int((min + max) / 2)) + ". "
 
-    text += "<br>"
+    text += "\n\n"
 
     text += "Teosest leiti " + str(len(segm_array)) + " erinevat teemat. "
     text += "Nendest peateema esineb " + str(segm_array.get("A")) + " korda. "
