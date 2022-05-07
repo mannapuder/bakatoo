@@ -95,7 +95,7 @@ async function upload() {
         form.id = "desc_div";
 
         let descTitle = document.createElement('h3');
-        descTitle.innerText = "Üldine kirjeldus";
+        descTitle.innerText = "Tulemus";
         let descPara = document.createElement('p');
         descPara.innerText = response.general_desc;
 

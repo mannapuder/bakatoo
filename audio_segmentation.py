@@ -16,12 +16,13 @@ def get_segmentation(y, sr, results):
         percentages.append([segm[0], (segm[2]-segm[1])*100/length])
 
     results["segmentation"] = final
-    results["segmentation_perc"] = percentages  # [["A", 25], ["B", 25], ["C", 30], ["B", 10], ["A", 10]]
+    results["segmentation_perc"] = percentages
 
     return final, percentages
 
 
 def main_algorithm(y, orig_sr):
+    y = np.copy(y)
     sr = 22050
     if orig_sr != sr:
         y = librosa.resample(y, orig_sr=orig_sr, target_sr=sr)
@@ -47,7 +48,7 @@ def main_algorithm(y, orig_sr):
     _min = nov.min()
     nov = (nov - _min) / (nov.max() - _min)
 
-    median_len = 51
+    median_len = 61
     offset_rel = 0.01
     sigma = 20
 
@@ -83,6 +84,7 @@ def main_algorithm(y, orig_sr):
         labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
         if max(labels) > 1:
             break
+    print(labels)
 
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     label_mapping = {}

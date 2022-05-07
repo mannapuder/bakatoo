@@ -7,18 +7,22 @@ import pychorus
 import requests
 import audio_segmentation
 import audio_structure
-#import madmom
+from collections import Counter
+
+# import madmom
 
 
-local = False
+local = True
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
 
-#Global parameters
+# Global parameters
 tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200],
           [200, 400]]
 terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Andante", "Moderno", "Allegro", "Vivace", "Presto",
          "Prestissimo"]
-#key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
+
+
+# key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
 
 
 def process(task):
@@ -56,9 +60,9 @@ def process(task):
 
     just_get_key(y, results)
     get_beat(y, sr, results)
-    #dummy data for testing
+    # dummy data for testing
     print(results)
-    #Text info builder
+    # Text info builder
     make_text(results)
 
     task.status = {'status': 'valmis', 'progress': 100, 'result': 'töötlemine lõpetatud',
@@ -89,8 +93,15 @@ def just_get_beat(y, sr):
     return tempo, tempo_term
 
 
+def just_get_term(tempo):
+    for i in range(len(tempos)):
+        if tempos[i][0] <= tempo <= tempos[i][1]:
+            tempo_term = terms[i]
+            return tempo_term
+
+
 def just_get_key(y, results):
-    #key = madmom.features.key.key_prediction_to_label(key_recognizer(y))
+    # key = madmom.features.key.key_prediction_to_label(key_recognizer(y))
     key = "G major"
     key = key.split(" ")
     key[1] = "duur" if key[1] == "major" else "moll"
@@ -144,12 +155,53 @@ def get_key_each_segm(segments, y, sr, results):
 
     results["keys"] = segm_keys
 
+
 def make_text(results):
-    text = "Lorem ipsum dolore sit amet"
+    text = ""
     tempos = results['tempos']
-    keys = results['keys']
+    min = 400
+    max = 0
+    min_tempo_term = tempos[0][1]
+    max_tempo_term = tempos[0][1]
+    for tempo in tempos:
+        if tempo[0] > max:
+            max = tempo[0]
+            max_tempo_term = tempo[1]
+        elif tempo[0] < min:
+            min = tempo[0]
+            min_tempo_term = tempo[1]
+    keys = set(results['keys'])
+    keys.remove("Helistikku ei leitud")
+    main_key = Counter(results['keys']).most_common(1)[0][0]
+    segm = "".join([i[0] for i in results['segmentation']])
+    segm_array = Counter([i[0] for i in results['segmentation']])
+    segm_set = set([i[0] for i in results['segmentation']])
+
+    if len(keys) > 1:
+        text += "Teosest leiti järgnevad helistikud: " + ", ".join(keys) + ". Põhihelistikuks on " + main_key + ". "
+    elif len(keys) == 1:
+        text += "Teose helistikuks on " + keys.pop() + ". "
+    if min_tempo_term == max_tempo_term:
+        text += "Antud teos on esitatud ligikaudu ühtlases tempos. Keskmiselt on teose tempo " + str(
+            int((min + max) / 2)) + " lööki minutis ehk " + min_tempo_term
+    else:
+        text += "Pala esitamise kiirus vaheldub " + str(min) + " lööki minutis ehk " + min_tempo_term + " ja " + str(
+            max) + " lööki minutis ehk " + max_tempo_term + " vahel. " "Keskmiselt on teose tempo " + str(
+            int((min + max) / 2)) + " lööki minutis ehk " + just_get_term(int((min + max) / 2)) + ". "
+
+    text += "<br>"
+
+    text += "Teosest leiti " + str(len(segm_array)) + " erinevat teemat. "
+    text += "Nendest peateema esineb " + str(segm_array.get("A")) + " korda. "
+
+    vorm = results['structure_name']
+    text += "Analüüsitud vormidest on antud teose vormile kõige lähem " + vorm + "."
+    text += results['structure_desc']
+
+    print(text)
 
     results['text'] = text
+
 
 def recognize(path, results):
     # TODO: use chorus?
@@ -173,3 +225,10 @@ def recognize(path, results):
     # do something with resp
     results['title and artist'] = f"{resp['response']['artist']} - {resp['response']['title']}"
     # return f"{resp['response']['artist']} - {resp['response']['title']}"
+
+
+"""
+results = {'segmentation': [('A', 0, 377810), ('A', 377810, 758692), ('B', 758692, 1197935), ('B', 1197935, 1652536), ('C', 1652536, 2638529), ('A', 2638529, 3004053), ('A', 3004053, 3329645), ('B', 3329645, 3781175), ('B', 3781175, 4238848)], 'segmentation_perc': [['A', 8.91303486230221], ['A', 8.98550738313806], ['B', 10.36232013981157], ['B', 10.724635561360067], ['C', 23.260871821777993], ['A', 8.623191961589564], ['A', 7.681143555985022], ['B', 10.652186631839594], ['B', 10.797108082195917]], 'tempos': [[144.0, 'Allegro'], [144.0, 'Allegro'], [129.0, 'Allegro'], [144.0, 'Allegro'], [152.0, 'Allegro'], [92.0, 'Andante'], [96.0, 'Andante'], [136.0, 'Allegro'], [144.0, 'Allegro']], 'structure_name': 'variatsioonivorm', 'structure_desc': 'TBA', 'key': 'Helistikku ei leitud', 'keys': ['G duur', 'B duur', 'g moll', 'C duur', 'G duur', 'Helistikku ei leitud', 'Helistikku ei leitud', 'Helistikku ei leitud', 'G duur'], 'beat': 143.5546875, 'tempo_term': 'Allegro', 'title and artist': 'Rick Astley - Never Gonna Give You Up ', 'chorus': 'aa35ad00-18d1-46a9-bc2d-105a93eaaf46main_theme.wav', 'start_sec': 139.66713840559265}
+
+
+make_text(results)"""

@@ -5,7 +5,7 @@ from flask import request, send_from_directory
 
 from task import Task
 
-local = False
+local = True
 app = f.Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '/tmp'
 if local:

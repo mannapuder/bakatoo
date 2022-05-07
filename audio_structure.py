@@ -1,5 +1,3 @@
-
-
 vormid = {
     "rondo": "Rondo on vorm, mis põhineb peateema ehk nn refrääni (refrain) korduvatel tagasitulekutel (repriisidel). Refrääne eraldavad üksteisest aga vaheosad ehk kupleed (couplet). Rondo kõige elementaarsem avaldumisvorm on viieosaline, ABACA, kus A viitab korduvalt tagasipöörduvale refräänile ning B, C jne kupleedele. Sageli avaldub rondo aga ka seitsmeosalisena kas kujul ABACADA või ABACAB1A (kus B1 viitab esimese kuplee tagasipöördumisele uues helistikus). Viimasel puhul on põhjust rääkida juba rondo-sonaadist (rondo-sonaadivormist), sest selles mängitakse vormi arenedes ümber kahe temaatilise üksuse A ja B helistikuline suhe nii, nagu see on omane ka sonaadivormile.",
     "sonaadivorm": "Sonaadivorm on klassikalise instrumentaalmuusika üks keskseid vorme. Kuigi vormiosade arv pole sonaadivormis keskse tähtsusega, koosneb see tavaliselt kolmest peamisest üksusest, ekspositsioonist, töötlusest ja repriisist, millest esimene esindab vormilist esitust, teine arendust ja kolmas lõpetust",
@@ -8,4 +6,16 @@ vormid = {
 
 
 def predict(segm):
-    return "TBA", "Lorem ipsum dolor sit amet..."
+    path = ""
+
+    if path == "ABACA":
+        return "rondo", vormid["rondo"]
+    if path == "AB":
+        return "kaheosaline lihtvorm", vormid["kaheosaline lihtvorm"]
+    if path == "ABA":
+        return "kolmeosaline lihtvorm", vormid["kolmeosaline lihtvorm"]
+    if "B" not in path:
+        return "variatsioonivorm", "TBA"
+    return "undefined", "Lorem ipsum dolor sit amet..."
+
+# Edit distance
