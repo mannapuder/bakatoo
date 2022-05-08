@@ -53,12 +53,12 @@ async function upload() {
         console.log(response.segmentation);
         segmArray = JSON.parse(JSON.stringify(response.segmentation));
         keyArray = JSON.parse(JSON.stringify(response.keys));
-        tempoArray = JSON.parse(JSON.stringify(response.tempos));
+        timestampsArray = JSON.parse(JSON.stringify(response.timestamps));
         console.log(segmArray);
         for (var i = 0; i < segmArray.length; i++){
             var segm = segmArray[i];
             var key = keyArray[i];
-            var tempo = JSON.parse(JSON.stringify(tempoArray[i]));
+            var timestamp = JSON.parse(JSON.stringify(timestampsArray[i]));
             segm = JSON.parse(JSON.stringify(segm));
             console.log(segm);
             let part = document.createElement('div');
@@ -67,7 +67,7 @@ async function upload() {
             let segm_title = document.createElement('h4');
             let par = document.createElement("p");
             segm_title.innerText= name;
-            par.innerText = /*key + "\n" + */ tempo[1] + " ("+tempo[0]+")";
+            par.innerText = timestamp[0] + " - "+timestamp[1];
             part.className = "part " + name;
             console.log(length);
             console.log(name);

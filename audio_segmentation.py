@@ -48,9 +48,9 @@ def main_algorithm(y, orig_sr):
     _min = nov.min()
     nov = (nov - _min) / (nov.max() - _min)
 
-    median_len = 61
+    median_len = 65
     offset_rel = 0.01
-    sigma = 20
+    sigma = 15
 
     offset = nov.mean() * offset_rel
     x = scipy.ndimage.gaussian_filter1d(nov, sigma=sigma)
@@ -84,6 +84,8 @@ def main_algorithm(y, orig_sr):
         labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
         if max(labels) > 1:
             break
+    t = 87/100
+    labels = hierarchy.fcluster(Z, t=t)
     print(labels)
 
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
