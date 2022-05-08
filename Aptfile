@@ -4,4 +4,4 @@ python-numpy
 python-setuptools
 libsndfile-dev
 libsndfile1
-cython
+cython3
