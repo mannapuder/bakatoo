@@ -4,4 +4,10 @@ python-numpy
 python-setuptools
 libsndfile-dev
 libsndfile1
-cython3
+build-essential
+gfortran
+python-all-dev
+python3-all-dev
+liblapack-dev
+libatlas-base-dev
+cython
