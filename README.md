@@ -15,5 +15,4 @@ Kaustas paramviz_app leidub testrakendus, millega saab katsetada test_audios kau
 ## Äratuntavad vormid
 Kaheosaline lihtvorm (AB),
 Kolmeosaline lihtvorm (ABA),
-Rondovorm,
-lauluvorm
+Rondovorm, rondo-sonaat, variatsioonivorm
