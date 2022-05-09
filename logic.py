@@ -203,7 +203,7 @@ def make_text(results):
     else:
         text += "Teosest leiti ainut üks teema, mis esineb " + str(segm_array.get("A")) + (
             " korda. " if segm_array.get("A") > 1 else " kord. ")
-    text += "Analüüsitud vormidest on antud teose vormile kõige lähem " + vorm + "."
+    text += "Analüüsitud vormidest on antud teose vormile kõige lähem " + vorm + ". "
     text += results['structure_desc']
 
     print(text)
