@@ -80,22 +80,11 @@ async function upload() {
 
         //Form description
 
-        let form = document.createElement('div');
-        form.id = "form_div";
-
-        let formName = document.createElement('h3');
-        formName.innerText = response.structure_name;
-        let formDesc = document.createElement('p');
-        formDesc.innerText = response.structure_desc;
-
-        form.appendChild(formName);
-        form.appendChild(formDesc);
-
         let general_desc = document.createElement('div');
         form.id = "desc_div";
 
         let descTitle = document.createElement('h3');
-        descTitle.innerText = "Tulemus";
+        descTitle.innerText = "Analüüsi tulemus";
         let descPara = document.createElement('p');
         descPara.id = "desc_p"
         descPara.innerText = response.general_desc;
@@ -106,7 +95,6 @@ async function upload() {
 
         results.appendChild(audioSegmentation);
         results.appendChild(general_desc);
-        results.appendChild(form);
         mainDiv.appendChild(results);
     }
 
