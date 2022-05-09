@@ -81,7 +81,6 @@ async function upload() {
         //Form description
 
         let general_desc = document.createElement('div');
-        form.id = "desc_div";
 
         let descTitle = document.createElement('h3');
         descTitle.innerText = "Analüüsi tulemus";
