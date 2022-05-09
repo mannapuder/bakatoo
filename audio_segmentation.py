@@ -84,8 +84,7 @@ def main_algorithm(y, orig_sr):
         labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
         if max(labels) > 1:
             break
-    t = 87/100
-    labels = hierarchy.fcluster(Z, t=t)
+
     print(labels)
 
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
