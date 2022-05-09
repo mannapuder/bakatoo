@@ -12,7 +12,7 @@ vormide_kirjeldused = {
 
 vormid = [
     ["rondo", "ABACA", "ABACADA"],
-    ["rondo-sonaat", "ABACABA"]
+    ["rondo-sonaat", "ABACABA"],
     ["kaheosaline lihtvorm", "AB", "AABB"],
     ["kolmeosaline lihtvorm", "ABA"],
     ["sonaadivorm", "ABCA"],

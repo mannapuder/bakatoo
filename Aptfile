@@ -1,4 +1,7 @@
 libasound2-dev
+python-dev
+python-numpy
+python-setuptools
 libsndfile-dev
 libsndfile1
 cython
