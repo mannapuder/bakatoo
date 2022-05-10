@@ -11,7 +11,7 @@ from collections import Counter
 
 import madmom
 
-local = True
+local = False
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)
 
 # Global parameters
