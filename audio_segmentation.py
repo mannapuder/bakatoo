@@ -48,9 +48,9 @@ def main_algorithm(y, orig_sr):
     _min = nov.min()
     nov = (nov - _min) / (nov.max() - _min)
 
-    median_len = 65
+    median_len = 67
     offset_rel = 0.01
-    sigma = 15
+    sigma = 16
 
     offset = nov.mean() * offset_rel
     x = scipy.ndimage.gaussian_filter1d(nov, sigma=sigma)
@@ -77,14 +77,21 @@ def main_algorithm(y, orig_sr):
     section_difference = (section_difference - _min) / (section_difference.max() - _min)
 
     distances = section_difference[np.triu_indices_from(section_difference, 1)]
-    Z = hierarchy.linkage(distances, method='centroid')  # i don't know why but centroid works
+    if len(distances) != 0:
 
-    for a in range(100, 1, -1):
-        t = a / 100
-        labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
-        if max(labels) > 1:
-            break
+        Z = hierarchy.linkage(distances, method='centroid')  # i don't know why but centroid works
+        print(Z)
+        min = 70 if 4 < len(Z) <= 6 else 50
+        for a in range(100, min, -1):
+            t = a / 100
+            labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
+            print(labels)
+            if max(labels) > 1:
+                print(a)
+                break
 
+    else:
+        labels = [1]
     print(labels)
 
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'

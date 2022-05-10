@@ -11,20 +11,20 @@ from collections import Counter
 
 import madmom
 
-local = False
+local = True
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)
 
 # Global parameters
-tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 76], [76, 108], [108, 120], [120, 156], [156, 176], [168, 200],
+tempos = [[0, 24], [25, 45], [45, 60], [60, 66], [66, 72], [72, 80], [80, 108], [108, 120], [120, 156], [156, 176], [168, 200],
           [200, 400]]
-terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Andante", "Moderno", "Allegro", "Vivace", "Presto",
+terms = ["Larghissimo", "Grave", "Largo", "Larghetto", "Adagio", "Adagietto", "Andante", "Moderato", "Allegro", "Vivace", "Presto",
          "Prestissimo"]
 
 key_recognizer = madmom.features.key.CNNKeyRecognitionProcessor()
 
 
 def process(task):
-    task.status = {'status': 'laen heliteost..', 'progress': 10}
+    task.status = {'status': 'heliteose laadimine', 'progress': 10}
     # try:
     if local:
         path = os.path.join('uploads', task.uuid + ".mp3")
@@ -170,7 +170,7 @@ def make_text(results):
         if tempo[0] > max:
             max = tempo[0]
             max_tempo_term = tempo[1]
-        elif tempo[0] < min:
+        if tempo[0] < min:
             min = tempo[0]
             min_tempo_term = tempo[1]
     keys = set(results['keys'])
@@ -186,7 +186,7 @@ def make_text(results):
         text += "Teose helistikuks on " + results['key'] + ". "
     if min_tempo_term == max_tempo_term:
         text += "Antud teos on esitatud ligikaudu ühtlases tempos. Keskmiselt on teose tempo " + str(
-            int((min + max) / 2)) + " lööki minutis ehk " + min_tempo_term + ". "
+            int(min)) + " lööki minutis ehk " + min_tempo_term + ". "
     else:
         text += "Pala esitamise kiirus vaheldub " + str(min) + " lööki minutis ehk " + min_tempo_term + " ja " + str(
             max) + " lööki minutis ehk " + max_tempo_term + " vahel. " "Keskmiselt on teose tempo " + str(
