@@ -195,6 +195,11 @@ def make_text(results):
     text += "\n\n"
 
     vorm = results['structure_name']
+
+    if vorm == "kolmeosaline lihtvorm":
+        segms = results["segmentation_perc"]
+        segms[-1][0] = "A"
+        results["segmentation_perc"] = segms
     if len(segm_array) > 1:
         text += "Teosest leiti " + str(len(segm_array)) + " erinevat teemat. "
         text += "Nendest peateema esineb " + str(segm_array.get("A")) + (

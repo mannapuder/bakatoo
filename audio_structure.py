@@ -11,12 +11,14 @@ vormide_kirjeldused = {
 vormid = [
     ["rondo-sonaat", "ABACABA"],
     ["rondo", "ABACA", "ABACADA", "ABACAEA"],
-    ["kolmeosaline lihtvorm", "ABA", "AABBAA", "AAABA"],
+    ["kolmeosaline lihtvorm", "ABA", "AABBAA", "AAABA", "AABBA"],
     ["kaheosaline lihtvorm", "AB", "AABB", "AAABBB", "AAAABBBB"],
 ]
 
 def predict(segm):
-    path = "".join([i[0] for i in segm])
+    path = [i[0] for i in segm]
+    #path = [v for i, v in enumerate(path) if i == 0 or v != path[i - 1]]
+    path = "".join(path)
 
     if path == "ABACA":
         return "rondo", vormide_kirjeldused["rondo"]

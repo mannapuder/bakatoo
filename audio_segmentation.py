@@ -75,14 +75,13 @@ def main_algorithm(y, orig_sr):
             section_difference[i1, i2] = 1 - ssm[x1:x2, y1:y2].mean()
     _min = section_difference.min()
     section_difference = (section_difference - _min) / (section_difference.max() - _min)
-
     distances = section_difference[np.triu_indices_from(section_difference, 1)]
     if len(distances) != 0:
 
         Z = hierarchy.linkage(distances, method='centroid')  # i don't know why but centroid works
         print(Z)
-        min = 70 if 4 < len(Z) <= 6 else 50
-        for a in range(100, min, -1):
+        min_index = 70 if 4 < len(Z) <= 6 else 50
+        for a in range(100, min_index, -1):
             t = a / 100
             labels = hierarchy.fcluster(Z, t=t)  # i don't know why but 1 works
             print(labels)
